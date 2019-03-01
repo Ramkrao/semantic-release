@@ -114,7 +114,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/semantic-release/semantic-release.git"
+    "url": "git+https://github.com/Ramkrao/semantic-release.git"
   },
   "scripts": {
     "cm": "git-cz",
