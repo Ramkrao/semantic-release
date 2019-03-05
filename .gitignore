@@ -131,3 +131,7 @@ yarn.lock
 
 # Gitbook
 _book
+
+# Dockerfiles
+Dockerfile
+docker-compose.yml

@@ -53,6 +53,10 @@ async function run(context, plugins) {
     return false;
   }
 
+  if (ciBranch) {
+    context.branch = ciBranch;
+  }
+
   logger[options.dryRun ? 'warn' : 'success'](
     `Run automated release from branch ${ciBranch}${options.dryRun ? ' in dry-run mode' : ''}`
   );
