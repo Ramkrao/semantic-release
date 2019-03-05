@@ -135,3 +135,6 @@ _book
 # Dockerfiles
 Dockerfile
 docker-compose.yml
+
+# secret files
+.npmrc

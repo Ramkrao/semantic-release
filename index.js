@@ -89,8 +89,19 @@ async function run(context, plugins) {
 
   await fetch(options.repositoryUrl, {cwd, env});
 
-  context.lastRelease = await getLastRelease(context);
-  context.commits = await getCommits(context);
+  // Get last release from tags only for develop branch
+  if (ciBranch == 'develop') {
+    logger.log("Fetching last release version and commits for develop branch");
+    context.lastRelease = await getLastRelease(context);
+    context.commits = await getCommits(context);
+  }
+  // For every other branch type, fetch the version number from package.json file
+  // In addition, skip commit analysis, since version number increment is never attempted for any branches apart from develop
+  else {
+    logger.log(`Skipping last release and commits fetch for ${ciBranch} branch`);
+    context.lastRelease = { gitTag: `v${context.env.npm_package_version}`, version: context.env.npm_package_version };
+    context.commits = [];
+  }
 
   const nextRelease = {type: await plugins.analyzeCommits(context), gitHead: await getGitHead({cwd, env})};
 
