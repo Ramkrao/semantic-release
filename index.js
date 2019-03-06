@@ -1,3 +1,4 @@
+const fs = require('fs');
 const {template, pick} = require('lodash');
 const marked = require('marked');
 const TerminalRenderer = require('marked-terminal');
@@ -136,8 +137,12 @@ async function run(context, plugins) {
   logger.success(`Published release ${nextRelease.version}`);
   
   // Exporting the release version for CI job to use it
-  process.env['releaseVersion'] = nextRelease.version;
-  logger.log(`Exported release version ${process.env.releaseVersion} to environment for CI usage`);
+  fs.writeFile('.env', `export RELEASE_VERSION=${nextRelease.version}`, function (err) {
+    if (err) {
+      return logger.error(err);
+    }
+    logger.log(`Exported release version ${nextRelease.version} to environment for CI usage`);
+  });
 
   if (options.dryRun) {
     logger.log(`Release note for version ${nextRelease.version}:`);
