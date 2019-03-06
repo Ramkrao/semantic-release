@@ -134,6 +134,10 @@ async function run(context, plugins) {
   await plugins.success(context);
 
   logger.success(`Published release ${nextRelease.version}`);
+  
+  // Exporting the release version for CI job to use it
+  process.env['releaseVersion'] = ${nextRelease.version};
+  logger.log(`Exported release version ${process.env.releaseVersion} to environment for CI usage`);
 
   if (options.dryRun) {
     logger.log(`Release note for version ${nextRelease.version}:`);
